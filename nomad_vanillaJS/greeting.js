@@ -1,7 +1,7 @@
 /*
 ** get Username from user and save it in LocalStorage 
 */
-const	form = document.querySelector(".js-form"),
+const	form = document.querySelector(".js-nameform"),
 		input = form.querySelector("input"),
 		greeting = document.querySelector(".js-greetings");
 
