@@ -35,7 +35,54 @@ class Map {
     }
 }
 
+class Player {
+    constructor() {
+        this.x = WINDOW_WIDTH / 2;
+        this.y = WINDOW_HEIGHT / 2;
+        this.radius = 3;
+        this.turnDirection = 0; // -1 if left, +1 if right
+        this.walkDirection = 0; // -1 if back, +1 if front
+        this.rotationAngle = Math.PI / 2;   // 90 degree
+        this.moveSpeed = 2.0;   // 2 pixels per frame
+        this.rotationSpeed = 2 * (Math.PI / 180);
+    }
+    update() {
+        // TODO:
+        // update player position based on turnDirection and walkDirection
+    }
+    /* player 만을 위한 render 함수 */
+    render() {
+        fill("red");
+        circle(this.x, this.y, this.radius);
+    }
+}
+
 var grid = new Map();
+var player = new Player();
+
+function keyPressed() {
+    if (keyCode == UP_ARROW) {
+        player.walkDirection = +1;
+    } else if (keyCode == DOWN_ARROW) {
+        player.walkDirection = -1;
+    } else if (keyCode == RIGHT_ARROW) {
+        player.turnDirection = +1;
+    } else if (keyCode == LEFT_ARROW) {
+        player.turnDirection = -1;
+    }
+}
+
+function keyReleased() {
+    if (keyCode == UP_ARROW) {
+        player.walkDirection = 0;
+    } else if (keyCode == DOWN_ARROW) {
+        player.walkDirection = 0;
+    } else if (keyCode == RIGHT_ARROW) {
+        player.turnDirection = 0;
+    } else if (keyCode == LEFT_ARROW) {
+        player.turnDirection = 0;
+    }
+}
 
 function setup() {
     // TODO: initialize all objects
@@ -46,6 +93,7 @@ function setup() {
 function update() {
     // TODO: update all game objects before we render the next frame
     // ex) position, speed, angle of the object
+    player.update();
 }
 
 function draw() {
@@ -53,4 +101,5 @@ function draw() {
     update();
 
     grid.render();
+    player.render();
 }
