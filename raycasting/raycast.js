@@ -21,6 +21,17 @@ class Map {
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
         ];
     }
+    hasWallAt(x, y){
+        if (x < 0 || x > WINDOW_WIDTH || y < 0 || y > WINDOW_HEIGHT){
+            return true;
+        }
+        var mapGridIndexX = Math.floor(x / TILE_SIZE);
+        var mapGridIndexY = Math.floor(y / TILE_SIZE);
+        if (this.grid[mapGridIndexY][mapGridIndexX] == 1)
+            return true;
+        else
+            return false;
+    }
     render() {
         for (var i = 0; i < MAP_NUM_ROWS; i++) {
             for (var j = 0; j < MAP_NUM_COLS; j++) {
@@ -52,8 +63,15 @@ class Player {
         this.rotationAngle += this.turnDirection * this.rotationSpeed;
 
         var moveStep = this.walkDirection * this.moveSpeed;
-        this.x += moveStep * Math.cos(this.rotationAngle);
-        this.y += moveStep * Math.sin(this.rotationAngle);
+
+        var newPlayerX = this.x + Math.cos(this.rotationAngle) * moveStep;
+        var newPlayerY = this.y + Math.sin(this.rotationAngle) * moveStep;
+        
+        //Wall과 충돌하지 않을 때만 Player 위치 업데이트
+        if (!grid.hasWallAt(newPlayerX, newPlayerY)) {
+            this.x = newPlayerX;
+            this.y = newPlayerY;
+        }
     }
     /* player 만을 위한 render 함수 */
     render() {
