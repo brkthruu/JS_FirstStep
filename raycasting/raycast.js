@@ -37,23 +37,36 @@ class Map {
 
 class Player {
     constructor() {
-        this.x = WINDOW_WIDTH / 2;
-        this.y = WINDOW_HEIGHT / 2;
+        this.x = WINDOW_WIDTH / 2;  // initial position x
+        this.y = WINDOW_HEIGHT / 2; // initial position y
         this.radius = 3;
         this.turnDirection = 0; // -1 if left, +1 if right
         this.walkDirection = 0; // -1 if back, +1 if front
         this.rotationAngle = Math.PI / 2;   // 90 degree
         this.moveSpeed = 2.0;   // 2 pixels per frame
-        this.rotationSpeed = 2 * (Math.PI / 180);
+        this.rotationSpeed = 2 * (Math.PI / 180);   
     }
     update() {
         // TODO:
         // update player position based on turnDirection and walkDirection
+        this.rotationAngle += this.turnDirection * this.rotationSpeed;
+
+        var moveStep = this.walkDirection * this.moveSpeed;
+        this.x += moveStep * Math.cos(this.rotationAngle);
+        this.y += moveStep * Math.sin(this.rotationAngle);
     }
     /* player 만을 위한 render 함수 */
     render() {
+        noStroke();
         fill("red");
         circle(this.x, this.y, this.radius);
+        stroke("red");
+        line(
+            this.x,
+            this.y,
+            this.x + Math.cos(this.rotationAngle) * 20,
+            this.y + Math.sin(this.rotationAngle) * 20,
+        );
     }
 }
 
